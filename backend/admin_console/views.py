@@ -138,7 +138,7 @@ class UserView(APIView):
         user.name = validated_data['name']
         user.is_admin = validated_data['is_admin']
         user.is_active = validated_data['is_active']
-        user.role = Roles.objects.get(role=validated_data['role'])
+        user.role = Roles.objects.get(id=validated_data['role'])
         user.save()
 
         log = Logs.objects.create(

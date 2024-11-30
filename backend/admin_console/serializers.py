@@ -48,10 +48,10 @@ class UpdateUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Users
-        fields = ('name', 'is_admin', 'is_active', 'role')
+        fields = ('username','name', 'is_admin', 'is_active', 'role')
     
     def validate_role(self, value):
-        if not Roles.objects.filter(role=value).exists():
+        if not Roles.objects.filter(id=value).exists():
             raise serializers.ValidationError('Role does not exist')
         return value
     
