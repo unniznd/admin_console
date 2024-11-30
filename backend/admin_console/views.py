@@ -209,7 +209,10 @@ class RoleView(APIView):
         """
         roles = Roles.objects.all()
         serializer = GetRoleSerializer(roles, many=True)
-        return Response(serializer.data)
+        return Response({
+            'status': 'SUCCESS',
+            'data': serializer.data
+        })
     
     def post(self, request, *args, **kwargs):
         """
