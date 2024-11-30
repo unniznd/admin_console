@@ -370,6 +370,22 @@ def get_logs(request):
 class CustomAuthToken(ObtainAuthToken):
 
     def post(self, request, *args, **kwargs):
+        """
+        Handles the POST request to authenticate a user and generate an authentication token.
+
+        This method validates the input data using the `Default Serializer Class`.
+        If the data is valid, it generates an authentication token for the user
+
+        Args:
+            request: The HTTP request object containing the user credentials.
+            *args: Additional positional arguments (not used in this method).
+            **kwargs: Additional keyword arguments (not used in this method).
+        
+        Returns:
+            Response: A Response object containing the authentication token
+                    with HTTP 200 status.
+        """
+
         serializer = self.serializer_class(data=request.data,
                                            context={'request': request})
         if not serializer.is_valid():
