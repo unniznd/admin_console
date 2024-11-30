@@ -1,0 +1,15 @@
+# Virtual environment
+venv/
+env/
+
+# Database
+db.sqlite3
+
+# Static files
+staticfiles/
+
+# Media files
+media/
+
+# Python cache
+__pycache__/
