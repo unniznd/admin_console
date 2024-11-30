@@ -3,7 +3,7 @@ from django.db import transaction
 from django.utils.crypto import get_random_string
 
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -337,6 +337,7 @@ class RoleView(APIView):
 
 
 @api_view(['GET'])
+@permission_classes([IsAdmin])
 def get_logs(request):
     """
     Handles the GET request to retrieve a list of all logs.
