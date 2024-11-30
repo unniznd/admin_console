@@ -1,0 +1,114 @@
+/* Default layout for larger screens */
+.admin-container {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar container */
+.sidebar {
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  width: 200px;
+  background-color: #ffffff;
+  height: 100vh; 
+  overflow-y: auto; /* Allow scrolling if sidebar content overflows */
+  top: 10px0; /* Fix sidebar to the top */
+}
+
+/* Sidebar button styling */
+.sidebar button {
+  background: transparent;
+  border: none;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  text-align: left;
+  color: #333;
+  margin: 0;
+  width: 100%;
+  position: relative;
+}
+
+/* Space between icon and text */
+.sidebar button span {
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+/* Active button styling */
+.sidebar button.active {
+  background-color: #0070f3; 
+  color: white; 
+  border-radius: 15px; 
+  padding-left: 25px; 
+  padding-right: 25px; 
+  transition: background-color 0.3s ease-in-out; 
+}
+
+.sidebar button.active svg {
+  color: white; 
+}
+
+/* Content area */
+.content {
+  flex: 1;
+  margin-left: 200px; /* Push content to the right, making space for the sidebar */
+  padding: 20px; /* Add padding to content */
+  overflow-y: auto; /* Allow content to scroll if necessary */
+}
+
+/* By default, hide the bottom nav on large screens */
+.bottom-nav {
+  display: none;
+  justify-content: space-around;
+  background-color: #ffffff;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid #ffffff;
+}
+
+.bottom-nav button {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.bottom-nav button span {
+  margin-top: 5px; /* Space between icon and label */
+  font-size: 12px;
+}
+
+.bottom-nav button.active {
+  font-weight: bold;
+  color: #0070f3;
+}
+
+/* Media query for smaller screens (max-width: 768px) */
+@media (max-width: 768px) {
+  /* Hide the sidebar on small screens */
+  .sidebar {
+    display: none;
+  }
+
+  /* Remove the left margin for content on small screens */
+  .content {
+    margin-left: 0;
+    padding: 0; /* Remove padding */
+  }
+
+  /* Show bottom navigation on small screens */
+  .bottom-nav {
+    display: flex;
+  }
+}
