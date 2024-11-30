@@ -273,3 +273,96 @@
   }
 }
 
+
+
+/* Roles Container */
+.roles-container {
+  padding: 20px;
+}
+
+/* Header with button */
+.roles-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.roles-header h2 {
+  margin: 0;
+}
+
+.create-role-btn {
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.create-role-btn:hover {
+  background-color: #005bb5;
+}
+
+/* Table Styles */
+.roles-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.roles-table th,
+.roles-table td {
+  text-align: left;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.roles-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.roles-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Action Buttons */
+.role-action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.role-edit-btn,
+.role-delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.role-edit-btn {
+  color: #0070f3;
+}
+
+.role-edit-btn:hover {
+  color: #005bb5;
+}
+
+.role-delete-btn {
+  color: #e63946;
+}
+
+.role-delete-btn:hover {
+  color: #a6212b;
+}
+
+
+@media (max-width: 768px) {
+
+  /* Hide the normal Create User button on smaller screens */
+  .create-role-btn {
+    display: none;
+  }
+}
