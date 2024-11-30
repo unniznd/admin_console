@@ -1,4 +1,5 @@
 from rest_framework.permissions import BasePermission
+from .models import Users
 
 class IsAdmin(BasePermission):
     message = {
@@ -6,4 +7,8 @@ class IsAdmin(BasePermission):
         'message': 'You are not authorized to perform this action'
     }
     def has_permission(self, request, view):
-        return request.user and request.user.is_admin
+        try:
+            user = Users.objects.get(user=request.user)
+            return user.is_admin
+        except Users.DoesNotExist:
+            return False
