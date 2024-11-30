@@ -62,6 +62,21 @@ class UpdateUserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('User does not exist')
         return value
 
+class DeleteUserSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(max_length=100, required=True)
+
+    class Meta:
+        model = Users
+        fields = ('username',)
+    
+    def validate_username(self, value):
+        if not DjangoUser.objects.filter(username=value).exists():
+            raise serializers.ValidationError('User does not exist')
+        
+        if not Users.objects.filter(user=DjangoUser.objects.get(username=value)).exists():
+            raise serializers.ValidationError('User does not exist')
+        return value
+
 
 # Role Serializers
 

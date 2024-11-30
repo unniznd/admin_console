@@ -10,7 +10,8 @@ from rest_framework import status
 from .models import Users, Roles, Logs
 from .permissions import IsAdmin
 from .serializers import (
-   CreateUserSerializer, GetUserSerializer, UpdateUserSerializer,
+   CreateUserSerializer, GetUserSerializer, 
+   UpdateUserSerializer, DeleteUserSerializer,
    CreateRoleSerializer, GetRoleSerializer, UpdateRoleSerializer,
    GetLogSerializer,
 )
@@ -170,24 +171,28 @@ class UserView(APIView):
             Response: A Response object containing the status of the operation
                     and a message indicating success or failure.
         """
-        try:
-            user = Users.objects.get(user=request.data['user'])
-        except Users.DoesNotExist:
+        serializer = DeleteUserSerializer(data=request.data)
+        if not serializer.is_valid():
             return Response({
-                'status': 'USER_NOT_FOUND',
-                'message': 'User not found'
-            }, status=status.HTTP_404_NOT_FOUND)
+                'status':'INVALID_INPUT',
+                'errors': serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
         
-        user.delete()
+        validated_data = serializer.validated_data
 
-        log = Logs.objects.create(
-            user=request.user,
-            action=f'User {user.name} deleted'
-        )
+        with transaction.atomic():
+            user = Users.objects.get(user__username=validated_data['username'])
+            user.user.delete()
+            user.delete()
 
+            log = Logs.objects.create(
+                user=request.user,
+                action=f'User {user.name} deleted'
+            )
+        
         return Response({
-            'status': 'USER_DELETED',
-            'message': 'User deleted successfully',
+            'status':'USER_DELETED',
+            'message':'User deleted successfully'
         })
 
 class RoleView(APIView):
