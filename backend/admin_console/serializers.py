@@ -81,14 +81,20 @@ class GetRoleSerializer(serializers.ModelSerializer):
         fields = ('id', 'role')
 
 class UpdateRoleSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=True)
     role = serializers.CharField(max_length=100, required=True)
 
     class Meta:
         model = Roles
-        fields = ('role',)
+        fields = ('id', 'role',)
 
     def validate_role(self, value):
-        if not Roles.objects.filter(role=value).exists():
+        if Roles.objects.filter(role=value).exists():
+            raise serializers.ValidationError('Role name already exists')
+        return value
+    
+    def validate_id(self, value):
+        if not Roles.objects.filter(id=value).exists():
             raise serializers.ValidationError('Role does not exist')
         return value
     

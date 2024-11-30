@@ -279,7 +279,7 @@ class RoleView(APIView):
         
         validated_data = serializer.validated_data
 
-        role = Roles.objects.get(role=request.data['role'])
+        role = Roles.objects.get(id = validated_data['id'])
         role.role = validated_data['role']
         role.save()
 
