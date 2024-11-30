@@ -3,6 +3,8 @@
 import "./styles.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -13,8 +15,28 @@ const LoginPage = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsLoading(false);
+    try{
+      const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/api/login/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      const response_json = await response.json();
+      if(response.ok){
+        localStorage.setItem("token", response_json.token);
+        router.push("/admin");
+      }else{
+        toast.error("Invalid username or password");
+      }
+    }catch(error){
+      console.error("An unexpected error occurred:", error);
+      alert("An unexpected error occurred");
+      setIsLoading(false);
+    }finally{
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -40,6 +62,7 @@ const LoginPage = () => {
           {isLoading ? "Logging in..." : "Login"}
         </button>
       </form>
+      <ToastContainer  />
     </div>
   );
 };
