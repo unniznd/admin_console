@@ -92,4 +92,17 @@ class UpdateRoleSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Role does not exist')
         return value
     
+
+# Log Serializers
+
+class GetLogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Logs
+        fields = ('id', 'user', 'action', 'date')
+    
+    def user(self, obj):
+        return obj.user.username
+    
+    def date(self, obj):
+        return obj.date.strftime("%B %d, %Y %I:%M %p")
     

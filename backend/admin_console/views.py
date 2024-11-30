@@ -2,6 +2,7 @@ from django.contrib.auth.models import User as DjangoUser
 from django.db import transaction
 
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -9,7 +10,8 @@ from .models import Users, Roles, Logs
 from .permissions import IsAdmin
 from .serializers import (
    CreateUserSerializer, GetUserSerializer, UpdateUserSerializer,
-   CreateRoleSerializer, GetRoleSerializer, UpdateRoleSerializer
+   CreateRoleSerializer, GetRoleSerializer, UpdateRoleSerializer,
+   GetLogSerializer,
 )
 
 class UserView(APIView):
@@ -325,3 +327,23 @@ class RoleView(APIView):
             'message': 'Role deleted successfully',
         })
 
+
+@api_view(['GET'])
+def get_logs(request):
+    """
+    Handles the GET request to retrieve a list of all logs.
+
+    This function fetches all the log records from the `Logs` model
+    and serializes them using the `GetLogSerializer`. It returns
+    the serialized data in the response.
+
+    Args:
+        request: The HTTP request object containing metadata and any query parameters.
+
+    Returns:
+        Response: A Response object containing the serialized list of logs
+                with HTTP 200 status.
+    """
+    logs = Logs.objects.all()
+    serializer = GetLogSerializer(logs, many=True)
+    return Response(serializer.data)
