@@ -29,14 +29,16 @@ class CreateUserSerializer(serializers.ModelSerializer):
     
 
 class GetUserSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField()
+    role = serializers.SerializerMethodField()
     class Meta:
         model = Users
-        fields = ('id', 'user', 'name', 'is_admin', 'is_active', 'role')
+        fields = ('id', 'username', 'name', 'is_admin', 'is_active', 'role')
     
-    def user(self, obj):
+    def get_username(self, obj):
         return obj.user.username
 
-    def role(self, obj):
+    def get_role(self, obj):
         return obj.role.role
 
 class UpdateUserSerializer(serializers.ModelSerializer):
