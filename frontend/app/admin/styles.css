@@ -112,3 +112,164 @@
     display: flex;
   }
 }
+
+/* Users container */
+.users-container {
+  padding: 20px;
+}
+
+/* Header with title and button */
+.users-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.users-header h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+/* Create User button */
+.create-user-btn {
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.create-user-btn:hover {
+  background-color: #005bb5;
+}
+
+/* Users table */
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users-table th,
+.users-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.users-table th {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.users-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+
+/* Action buttons container */
+.user-action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+/* Edit button styling */
+.user-edit-btn {
+  background-color: #ffc107;
+  color: white;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+}
+
+.user-edit-btn:hover {
+  background-color: #e0a800;
+}
+
+/* Delete button styling */
+.user-delete-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+}
+
+.user-delete-btn:hover {
+  background-color: #c82333;
+}
+
+/* Users table */
+.users-table th,
+.users-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.users-table th {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.users-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Icon for active users */
+.active-icon {
+  color: green;
+  font-size: 1.2em;
+}
+
+/* Icon for inactive users */
+.inactive-icon {
+  color: red;
+  font-size: 1.2em;
+}
+
+/* Floating Action Button (FAB) */
+.fab {
+  display: none; /* Hidden by default */
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  font-size: 24px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+/* FAB hover effect */
+.fab:hover {
+  background-color: #005bb5;
+}
+
+/* Show FAB on smaller screens */
+@media (max-width: 768px) {
+  .fab {
+    display: flex;
+  }
+
+  /* Hide the normal Create User button on smaller screens */
+  .create-user-btn {
+    display: none;
+  }
+}
+
