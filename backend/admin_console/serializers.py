@@ -102,13 +102,19 @@ class UpdateRoleSerializer(serializers.ModelSerializer):
 # Log Serializers
 
 class GetLogSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+    date = serializers.SerializerMethodField()
+
     class Meta:
         model = Logs
         fields = ('id', 'user', 'action', 'date')
     
-    def user(self, obj):
+    def get_user(self, obj):
         return obj.user.username
     
-    def date(self, obj):
+    def get_date(self, obj):
         return obj.date.strftime("%B %d, %Y %I:%M %p")
+    
+    
+    
     

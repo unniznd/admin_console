@@ -349,4 +349,7 @@ def get_logs(request):
     """
     logs = Logs.objects.all()
     serializer = GetLogSerializer(logs, many=True)
-    return Response(serializer.data)
+    return Response({
+        'status':'SUCCESS',
+        'data':serializer.data
+    })
