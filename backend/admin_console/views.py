@@ -6,6 +6,8 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
 
 from .models import Users, Roles, Logs
 from .permissions import IsAdmin
@@ -340,7 +342,6 @@ class RoleView(APIView):
             'message': 'Role deleted successfully',
         })
 
-
 @api_view(['GET'])
 @permission_classes([IsAdmin])
 def get_logs(request):
@@ -364,3 +365,22 @@ def get_logs(request):
         'status':'SUCCESS',
         'data':serializer.data
     })
+
+
+class CustomAuthToken(ObtainAuthToken):
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        if not serializer.is_valid():
+            return Response({
+                'status': 'INVALID_INPUT',
+                'errors': serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+
+        return Response({
+            'token': token.key,
+        })
