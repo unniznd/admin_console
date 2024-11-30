@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User as DjangoUser
 from django.db import transaction
+from django.utils.crypto import get_random_string
 
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
@@ -73,7 +74,7 @@ class UserView(APIView):
         
         validated_data = serializer.validated_data
         
-        password = DjangoUser.objects.make_random_password()
+        password = get_random_string(length=8)
 
         with transaction.atomic():
             user = DjangoUser.objects.create_user(
@@ -86,7 +87,7 @@ class UserView(APIView):
                 name=validated_data['name'],
                 is_admin=validated_data['is_admin'],
                 is_active=validated_data['is_active'],
-                role=Roles.objects.get(role=validated_data['role'])
+                role=Roles.objects.get(id=validated_data['role'])
             )
 
             log = Logs.objects.create(
@@ -97,6 +98,10 @@ class UserView(APIView):
         return Response({
             'status': 'USER_CREATED',
             'message': 'User created successfully',
+            'data':{
+                'username': validated_data['username'],
+                'password': password
+            }
         }, status=status.HTTP_201_CREATED)
 
 

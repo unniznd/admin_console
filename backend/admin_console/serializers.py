@@ -23,7 +23,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
         return value
     
     def validate_role(self, value):
-        if not Roles.objects.filter(role=value).exists():
+        if not Roles.objects.filter(id=value).exists():
             raise serializers.ValidationError('Role does not exist')
         return value
     
