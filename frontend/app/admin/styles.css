@@ -427,3 +427,140 @@
 .logs-table tbody tr:hover {
   background-color: #f9f9f9;
 }
+
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+/* Modal content */
+.modal-content {
+  background: #fff;
+  border-radius: 8px;
+  padding: 30px;
+  width: 100%;
+  max-width: 600px; 
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+/* Form group styling */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* Label styling */
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Input styling */
+input, select {
+  width: 100%; /* Make the input and select fill the container */
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+/* Select dropdown styling */
+select {
+  -webkit-appearance: none; /* Remove default styling in some browsers */
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f8f8f8;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none"%3E%3Cpath fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+  width: auto;
+  margin-right: 10px;
+}
+
+/* Modal actions */
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.modal-actions button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cancel-btn {
+  background-color: #f44336; /* Red color */
+  color: white;
+}
+
+.create-btn {
+  background-color: #28a745; /* Green color */
+  color: white;
+}
+
+/* Button hover effects */
+.cancel-btn:hover {
+  background-color: #e53935;
+}
+
+.create-btn:hover {
+  background-color: #218838;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .modal-content {
+    padding: 20px;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  input, select {
+    font-size: 1rem;
+  }
+
+  .modal-actions button {
+    font-size: 0.875rem;
+  }
+}
+
+
+.error-message {
+  color: #f44336;
+  text-align: center;
+  font-size: 1rem;
+  padding: 20px;
+}
