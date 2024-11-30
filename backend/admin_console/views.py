@@ -311,7 +311,7 @@ class RoleView(APIView):
                     and a message indicating success or failure.
         """
         try:
-            role = Roles.objects.get(role=request.data['role'])
+            role = Roles.objects.get(id=request.data['id'])
         except Roles.DoesNotExist:
             return Response({
                 'status': 'ROLE_NOT_FOUND',
