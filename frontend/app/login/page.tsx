@@ -1,7 +1,7 @@
 "use client";
 
 import "./styles.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -38,6 +38,13 @@ const LoginPage = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      router.push("/admin"); 
+    }
+  }, [router]);
 
   return (
     <div className="login-container">

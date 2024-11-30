@@ -1,4 +1,6 @@
-import { useRouter } from "next/router";
+"use client"
+
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 
@@ -12,7 +14,7 @@ export default function Home() {
       router.push("/login"); // Redirect to login if token is null
     }
   }, [router]);
-  
+
   return (
    <>
    </>
