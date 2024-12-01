@@ -184,8 +184,8 @@ class UserView(APIView):
 
         with transaction.atomic():
             user = Users.objects.get(user__username=validated_data['username'])
-            user.user.delete()
             user.delete()
+            user.user.delete()
 
             log = Logs.objects.create(
                 user=request.user,

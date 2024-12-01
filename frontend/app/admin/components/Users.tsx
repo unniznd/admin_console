@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaEdit, FaTrash, FaCheck, FaTimes, FaPlus } from "react-icons/fa";
-import UserModal from "./UserModal"; // Import the modal component
+import UserModal from "./UserModal"; 
+import ConfirmationModal from "./ConfirmationModal";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -19,6 +20,8 @@ const Users = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userToEdit, setUserToEdit] = useState<User | null>(null);
   const roleMap = new Map<String, number>();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [userToDelete, setUserToDelete] = useState<User| null>(null);
 
 
 
@@ -27,8 +30,28 @@ const Users = () => {
     setIsModalOpen(true);
   };
 
-  const handleDelete = (username: string) => {
-    console.log(`Delete user: ${username}`);
+  const handleDelete = async (username: string) => {
+    try{
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BACKEND_URL + `/api/admin/users/`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({ username }),
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        setUsers(users.filter(user => user.username !== username));
+      } else {
+        toast.error("An error occured while deleting user");
+      }
+    }catch(e){
+      toast.error("An error occured while deleting user");
+    }
   };
 
   const handleCreateUser = () => {
@@ -106,6 +129,7 @@ const Users = () => {
 
   const handleEditUser = async (userData: { username: string; name: string; is_active: boolean; role: string }) => {
     try{
+      await getRoles();
       const response = await fetch(
         process.env.NEXT_PUBLIC_BACKEND_URL + `/api/admin/users/`,
         {
@@ -118,7 +142,7 @@ const Users = () => {
             "username": userData.username,
             "name": userData.name,
             "is_active": userData.is_active,
-            "role": userData.role,
+            "role": roleMap.get(userData.role),
             "is_admin": false
           }),
         }
@@ -210,7 +234,10 @@ const Users = () => {
                     </button>
                     <button
                       className="user-delete-btn"
-                      onClick={() => handleDelete(user.username)}
+                      onClick={() => {
+                        setUserToDelete(user);
+                        setIsDeleteModalOpen(true);
+                      }}
                     >
                       <FaTrash />
                     </button>
@@ -234,6 +261,19 @@ const Users = () => {
         onEdit={handleEditUser} 
         userToEdit={userToEdit} 
       />
+
+      {/* Confirmation Modal for Delete */}
+      <ConfirmationModal 
+        isOpen={isDeleteModalOpen} 
+        message="Are you sure you want to delete this user?" 
+        onConfirm={async () =>{
+          await handleDelete(userToDelete?.username || "");
+          setIsDeleteModalOpen(false);
+          
+        }} 
+        onCancel={() => setIsDeleteModalOpen(false)}/>
+
+    
       <ToastContainer/>
     </div>
   );
