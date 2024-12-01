@@ -4,7 +4,7 @@ import UserModal from "./UserModal";
 import ConfirmationModal from "./ConfirmationModal";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 
 interface User {
