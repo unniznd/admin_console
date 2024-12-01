@@ -23,3 +23,6 @@ This is a simple complete project of role based access control system where user
 ## Documentation
 * Frontend [docs](https://github.com/unniznd/admin_console/blob/main/frontend/README.md)
 * Backend [docs](https://github.com/unniznd/admin_console/blob/main/backend/README.md)
+
+## Demo Video
+[Watch the video](https://drive.google.com/file/d/1OwgndcbYKC_M9NbT8js2fDk6a2IJLOY4/view?usp=sharing)
