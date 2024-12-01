@@ -124,7 +124,8 @@ const Roles = () => {
         setRoles(roles.filter((role) => role.id !== roleId));
         toast.success("Role deleted successfully");
       } else {
-        toast.error("Failed to delete role");
+        const data = await response.json()
+        toast.error(data?.message || "Failed to delete role");
       }
     } catch (error) {
       toast.error("An error occurred while deleting the role");

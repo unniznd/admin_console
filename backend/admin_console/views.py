@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User as DjangoUser
-from django.db import transaction
+from django.db import transaction, IntegrityError
 from django.utils.crypto import get_random_string
 
 from rest_framework.views import APIView
@@ -336,7 +336,13 @@ class RoleView(APIView):
                 'message': 'Role not found'
             }, status=status.HTTP_404_NOT_FOUND)
         
-        role.delete()
+        try:
+            role.delete()
+        except IntegrityError:
+            return Response({
+                'status':'ROLE_DELETION_FAILED',
+                'message':'Role used by users cannot be deleted'
+            }, status=status.HTTP_404_NOT_FOUND)
 
         log = Logs.objects.create(
             user=request.user,

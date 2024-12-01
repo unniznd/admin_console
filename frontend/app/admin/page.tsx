@@ -14,13 +14,45 @@ const AdminPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
-  useEffect(() => {
+  const checkIfAdmin = async () => {
     setIsLoading(true);
+    try {
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BACKEND_URL + "/api/user/",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        
+        if (!data?.data.is_admin) {
+          router.replace("/"); 
+        }else{
+          setIsLoading(false);
+        }
+      } else {
+        router.replace("/login"); 
+      }
+    } catch (error) {
+      router.replace("/login"); 
+    } 
+  };
+
+  useEffect(() => {
     const token = localStorage.getItem("token");
+
     if (!token) {
-      router.replace("/login"); // Redirect to login if token is null
-    }else{
-      setIsLoading(false);
+      // If no token, redirect to login
+      router.replace("/login");
+    } else {
+      // If token exists, check if the user is an admin
+      checkIfAdmin();
     }
   }, [router]);
 
@@ -41,14 +73,14 @@ const AdminPage = () => {
     <div className="admin-container">
       {isLoading ? (
         <div className="admin-loading">
-        <div className="loader"></div>
+          <div className="loader"></div>
         </div>
-      ):(
+      ) : (
         <>
-        <SideBar activeTab={activeTab} setActiveTab={setActiveTab} />
-        <div className="content">{renderContent()}</div>
-        <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
-      </>
+          <SideBar activeTab={activeTab} setActiveTab={setActiveTab} />
+          <div className="content">{renderContent()}</div>
+          <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
+        </>
       )}
     </div>
   );

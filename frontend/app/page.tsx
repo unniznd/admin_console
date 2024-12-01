@@ -40,7 +40,7 @@ export default function Home() {
         const data = await response.json();
         setUser(data?.data);
       } else {
-        throw new Error("Failed to fetch user data");
+        toast.error("Failed to fetch user data");
       }
     } catch (error) {
       toast.error("An error occurred while fetching user data");
