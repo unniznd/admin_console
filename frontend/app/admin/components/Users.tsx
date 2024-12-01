@@ -4,6 +4,7 @@ import UserModal from "./UserModal";
 import ConfirmationModal from "./ConfirmationModal";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from "next/router";
 
 
 interface User {
@@ -22,6 +23,7 @@ const Users = () => {
   const roleMap = new Map<String, number>();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState<User| null>(null);
+  const router = useRouter();
 
   const getRoles = async () =>{
     try{
@@ -49,7 +51,7 @@ const Users = () => {
     }
   }
 
-  const getUsers = async () => {
+  const fetchUsers = async () => {
     setIsLoading(true);
     try {
       const response = await fetch(
@@ -62,6 +64,9 @@ const Users = () => {
           },
         }
       );
+      if(response.status == 403){
+        router.push("/");
+      }
       const data = await response.json();
       setUsers(data["data"]);
     } catch (error) {
@@ -173,7 +178,7 @@ const Users = () => {
   };
 
   useEffect(() => {
-    getUsers();
+    fetchUsers();
   }, []);
 
   return (

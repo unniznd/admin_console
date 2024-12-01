@@ -4,6 +4,8 @@ import ConfirmationModal from "./ConfirmationModal";
 import RoleModal from "./RoleModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/router";
+
 
 interface Role {
   id: number;
@@ -17,6 +19,7 @@ const Roles = () => {
   const [roleToEdit, setRoleToEdit] = useState<Role | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [roleToDelete, setRoleToDelete] = useState<Role | null>(null);
+  const router = useRouter();
 
   // Fetch roles data
   const fetchRoles = async () => {
@@ -32,6 +35,10 @@ const Roles = () => {
           },
         }
       );
+
+      if(response.status == 403){
+        router.push("/");
+      }
       const data = await response.json();
       if (response.ok) {
         setRoles(data?.data || []);

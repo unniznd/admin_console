@@ -1,11 +1,47 @@
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+
+interface Log {
+  id:number,
+  user:string,
+  action:string,
+  date:string
+}
 
 const Logs = () => {
-  const logData = [
-    { username: "johndoe", message: "Logged in successfully", timestamp: "2024-11-30 10:15:00" },
-    { username: "janedoe", message: "Failed login attempt", timestamp: "2024-11-30 10:20:00" },
-    { username: "alexsmith", message: "Logged out", timestamp: "2024-11-30 10:25:00" },
-  ];
+  const [logs, setLogs] = useState<Log[]>([]);
+  const router = useRouter();
+
+  const fetchLogs = async () => {
+    try{
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BACKEND_URL + "/api/admin/logs/",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if(response.status == 403){
+        router.push("/");
+      }
+      const data = await response.json();
+      if (response.ok) {
+        setLogs(data?.data || []);
+      } else {
+        toast.error("Failed to fetch logs");
+      }
+    }catch(error){
+      toast.error("An error occurred while fetching logs");
+    }
+  };
+
+  useEffect(() => {
+    fetchLogs();
+  }, []);
 
   return (
     <div className="logs-container">
@@ -22,15 +58,16 @@ const Logs = () => {
           </tr>
         </thead>
         <tbody>
-          {logData.map((log, index) => (
+          {logs.map((log, index) => (
             <tr key={index}>
-              <td>{log.username}</td>
-              <td>{log.message}</td>
-              <td>{log.timestamp}</td>
+              <td>{log.user}</td>
+              <td>{log.action}</td>
+              <td>{log.date}</td>
             </tr>
           ))}
         </tbody>
       </table>
+      <ToastContainer />
     </div>
   );
 };
