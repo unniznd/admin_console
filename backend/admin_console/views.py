@@ -137,12 +137,12 @@ class UserView(APIView):
             }, status=status.HTTP_400_BAD_REQUEST)
         
         validated_data = serializer.validated_data
-
+        role = Roles.objects.get(id=validated_data['role'])
         user = Users.objects.get(user__username=validated_data['username'])
         user.name = validated_data['name']
-        user.is_admin = validated_data['is_admin']
+        user.is_admin = True if role.id == 1 else validated_data['is_admin']
         user.is_active = validated_data['is_active']
-        user.role = Roles.objects.get(id=validated_data['role'])
+        user.role = role
         user.save()
 
         log = Logs.objects.create(

@@ -39,8 +39,9 @@ export default function Home() {
       if (response.ok) {
         const data = await response.json();
         setUser(data?.data);
-      } else {
-        toast.error("Failed to fetch user data");
+      } else if(response.status == 401 || response.status == 403) {
+        localStorage.removeItem("token");
+        router.push("/login")
       }
     } catch (error) {
       toast.error("An error occurred while fetching user data");
