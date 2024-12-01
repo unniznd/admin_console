@@ -8,7 +8,7 @@ This is a simple complete project of role based access control system where user
 
 ## Features
 ### Manage User
-* Create user with specific role, activity
+* Create user with specific role and manage is active status
 * Edit user data
 * Delete users
 
