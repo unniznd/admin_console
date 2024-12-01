@@ -15,3 +15,6 @@ The backend has the following API endpoints:
 2. `/api/admin/users` - GET, POST, PUT, DELETE
 3. `/api/admin/roles` - GET, POST, PUT, DELETE
 3. `/api/admin/logs` - GET
+
+## API Documentation
+The backend API documentation can be found [here](http://localhost:8000/redoc/)
