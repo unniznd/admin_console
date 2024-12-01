@@ -1,3 +1,5 @@
+import "./globals.css";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -5,6 +7,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <title>Admin Panel</title>
       <body suppressHydrationWarning>
         {children}
       </body>

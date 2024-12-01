@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 
@@ -371,6 +372,25 @@ def get_logs(request):
         'data':serializer.data
     })
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_data(request):
+    try:
+        user = Users.objects.get(user=request.user)
+    except Users.DoesNotExist:
+        return Response({
+            'status':'INVALID_INPUT'
+        }, status=status.HTTP_401_UNAUTHORIZED)
+    
+    return Response({
+        "status":"SUCCESS",
+        "data":{
+            "username":user.user.username,
+            "name": user.name,
+            "role":user.role.role,
+            "is_admin":user.is_admin
+        }
+    })
 
 class CustomAuthToken(ObtainAuthToken):
 
