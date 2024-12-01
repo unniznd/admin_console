@@ -265,7 +265,7 @@ const Users = () => {
       {/* Confirmation Modal for Delete */}
       <ConfirmationModal 
         isOpen={isDeleteModalOpen} 
-        message="Are you sure you want to delete this user?" 
+        message={`Are you sure you want to delete the role "${userToDelete?.username}"?`}
         onConfirm={async () =>{
           await handleDelete(userToDelete?.username || "");
           setIsDeleteModalOpen(false);
