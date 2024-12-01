@@ -78,7 +78,7 @@ class UserView(APIView):
         
         validated_data = serializer.validated_data
         
-        password = get_random_string(length=8)
+        password = f"{get_random_string(length=8)}@"
 
         with transaction.atomic():
             user = DjangoUser.objects.create_user(

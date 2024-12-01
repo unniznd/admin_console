@@ -104,6 +104,9 @@ const Users = () => {
         setUsers([...users, userData]);
         setIsModalOpen(false);
         toast.success("User created successfully");
+        const clipboardData = `Username: ${data?.data.username}\nPassword: ${data?.data.password}`
+        await navigator.clipboard.writeText(clipboardData);
+        toast.success("Username and Password copied to clipboard");
       } else {
         if (data?.errors){
           if(data.errors?.username){
