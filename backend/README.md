@@ -17,4 +17,4 @@ The backend has the following API endpoints:
 3. `/api/admin/logs` - GET
 
 ## API Documentation
-The backend API documentation can be found [here](http://localhost:8000/redoc/)
+The backend API documentation can be found http://localhost:8000/redoc/ after running the backend server.
