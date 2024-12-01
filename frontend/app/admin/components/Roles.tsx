@@ -146,7 +146,7 @@ const Roles = () => {
             setIsModalOpen(true);
           }}
          >
-          <FaPlus /> Create Role
+           Create Role
         </button>
       </div>
 
