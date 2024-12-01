@@ -66,11 +66,13 @@ const Users = () => {
       );
       if(response.status == 403){
         router.push("/");
+      }else if(response.status == 401){
+        router.replace("/login");
       }
       const data = await response.json();
       setUsers(data["data"]);
     } catch (error) {
-      console.error(error);
+      toast.error("An error occurred while fetching users");
     } finally {
       setIsLoading(false);
     }
@@ -103,7 +105,6 @@ const Users = () => {
         setIsModalOpen(false);
         toast.success("User created successfully");
       } else {
-        console.log(data?.errors);
         if (data?.errors){
           if(data.errors?.username){
             toast.error(data.errors["username"][0])
@@ -144,7 +145,7 @@ const Users = () => {
         setUsers(users.map(user => user.username === userData.username ? userData : user));
         setIsModalOpen(false);
         toast.success("User updated successfully");
-      } else {console.log(data?.error);
+      } else {
         toast.error("An error occured while updating user");
       }
     }catch(e){

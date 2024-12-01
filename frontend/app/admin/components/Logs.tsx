@@ -1,6 +1,7 @@
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Log {
   id:number,
@@ -27,6 +28,9 @@ const Logs = () => {
       );
       if(response.status == 403){
         router.push("/");
+      }else if(response.status == 401){
+        router.push("/login");
+        localStorage.removeItem("token");
       }
       const data = await response.json();
       if (response.ok) {

@@ -11,7 +11,7 @@ export default function Home() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      router.push("/login"); // Redirect to login if token is null
+      router.replace("/login"); // Redirect to login if token is null
     }
   }, [router]);
 

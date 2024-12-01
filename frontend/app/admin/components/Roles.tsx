@@ -38,6 +38,9 @@ const Roles = () => {
 
       if(response.status == 403){
         router.push("/");
+      }else if(response.status == 401){
+        router.push("/login");
+        localStorage.removeItem("token");
       }
       const data = await response.json();
       if (response.ok) {

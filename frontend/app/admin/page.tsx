@@ -11,12 +11,16 @@ import Logs from "./components/Logs";
 
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState("users");
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
+    setIsLoading(true);
     const token = localStorage.getItem("token");
     if (!token) {
-      router.push("/login"); // Redirect to login if token is null
+      router.replace("/login"); // Redirect to login if token is null
+    }else{
+      setIsLoading(false);
     }
   }, [router]);
 
@@ -35,9 +39,17 @@ const AdminPage = () => {
 
   return (
     <div className="admin-container">
-      <SideBar activeTab={activeTab} setActiveTab={setActiveTab} />
-      <div className="content">{renderContent()}</div>
-      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
+      {isLoading ? (
+        <div className="admin-loading">
+        <div className="loader"></div>
+        </div>
+      ):(
+        <>
+        <SideBar activeTab={activeTab} setActiveTab={setActiveTab} />
+        <div className="content">{renderContent()}</div>
+        <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
+      </>
+      )}
     </div>
   );
 };
