@@ -89,6 +89,7 @@ const Roles = () => {
       } else {
         const data = await response.json();
         toast.error(data?.errors?.role[0] || "Failed to update role");
+        setRoleToEdit(null);
       }
     } catch (error) {
       toast.error("An error occurred while updating the role");
@@ -120,7 +121,6 @@ const Roles = () => {
     }
   };
 
-  // Fetch roles on component mount
   useEffect(() => {
     fetchRoles();
   }, []);

@@ -34,37 +34,48 @@ const UserModal: React.FC<CreateUserModalProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [roles, setRoles] = useState<Role[]>([]);
 
+
+  const fetchRoles = async () => {
+    setIsLoading(true);
+    setError(null); // Reset any previous error
+
+    try {
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BACKEND_URL + "/api/admin/roles/",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const data = await response.json();
+
+      if (data?.data) {
+        setRoles(data.data);
+      } else {
+        setError("No roles available");
+      }
+    } catch (error) {
+      setError("An error occurred while fetching roles");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (userToEdit) {
+      onEdit({ username, name, is_active: isActive, role });
+    } else {
+      onCreate({ username, name, is_active: isActive, role });
+    }
+    onClose();
+  };
+
   // Fetch roles on mount
   useEffect(() => {
-    const fetchRoles = async () => {
-      setIsLoading(true);
-      setError(null); // Reset any previous error
-
-      try {
-        const response = await fetch(
-          process.env.NEXT_PUBLIC_BACKEND_URL + "/api/admin/roles/",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Token ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        const data = await response.json();
-
-        if (data?.data) {
-          setRoles(data.data);
-        } else {
-          setError("No roles available");
-        }
-      } catch (error) {
-        setError("An error occurred while fetching roles");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     if (userToEdit) {
       setUsername(userToEdit.username);
       setName(userToEdit.name);
@@ -80,16 +91,7 @@ const UserModal: React.FC<CreateUserModalProps> = ({
     fetchRoles();
   }, [userToEdit]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (userToEdit) {
-      onEdit({ username, name, is_active: isActive, role });
-    } else {
-      onCreate({ username, name, is_active: isActive, role });
-    }
-    onClose();
-  };
-
+  
   if (!isOpen) return null;
 
   return (

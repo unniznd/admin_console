@@ -23,43 +23,6 @@ const Users = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState<User| null>(null);
 
-
-
-  const handleEdit = (user: User) => {
-    setUserToEdit(user);
-    setIsModalOpen(true);
-  };
-
-  const handleDelete = async (username: string) => {
-    try{
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_BACKEND_URL + `/api/admin/users/`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Token ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify({ username }),
-        }
-      );
-      const data = await response.json();
-      if (response.ok) {
-        setUsers(users.filter(user => user.username !== username));
-        toast.success("User deleted successfully");
-      } else {
-        toast.error("An error occured while deleting user");
-      }
-    }catch(e){
-      toast.error("An error occured while deleting user");
-    }
-  };
-
-  const handleCreateUser = () => {
-    setUserToEdit(null);
-    setIsModalOpen(true);
-  };
-
   const getRoles = async () =>{
     try{
       const response = await fetch(
@@ -85,6 +48,28 @@ const Users = () => {
       toast.error("Failed to fetch roles")
     }
   }
+
+  const getUsers = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BACKEND_URL + "/api/admin/users/",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const data = await response.json();
+      setUsers(data["data"]);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleCreate = async (userData: { username: string; name: string; is_active: boolean; role: string }) => {
     try{
@@ -162,29 +147,32 @@ const Users = () => {
     }
   };
 
-  useEffect(() => {
-    const getUsers = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          process.env.NEXT_PUBLIC_BACKEND_URL + "/api/admin/users/",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Token ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        const data = await response.json();
-        setUsers(data["data"]);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
+  const handleDelete = async (username: string) => {
+    try{
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BACKEND_URL + `/api/admin/users/`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({ username }),
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        setUsers(users.filter(user => user.username !== username));
+        toast.success("User deleted successfully");
+      } else {
+        toast.error("An error occured while deleting user");
       }
-    };
+    }catch(e){
+      toast.error("An error occured while deleting user");
+    }
+  };
 
+  useEffect(() => {
     getUsers();
   }, []);
 
@@ -192,7 +180,10 @@ const Users = () => {
     <div className="users-container">
       <div className="users-header">
         <h2>Users</h2>
-        <button className="create-user-btn" onClick={handleCreateUser}>
+        <button className="create-user-btn" onClick={() =>{
+          setUserToEdit(null);
+          setIsModalOpen(true);
+        }}>
           Create User
         </button>
       </div>
@@ -231,7 +222,10 @@ const Users = () => {
                   <div className="user-action-buttons">
                     <button
                       className="user-edit-btn"
-                      onClick={() => handleEdit(user)}
+                      onClick={() => {
+                        setUserToEdit(user);
+                        setIsModalOpen(true);
+                      }}
                     >
                       <FaEdit />
                     </button>
@@ -252,7 +246,10 @@ const Users = () => {
         </tbody>
       </table>
 
-      <button className="fab" onClick={handleCreateUser}>
+      <button className="fab" onClick={() =>{
+        setUserToEdit(null);
+        setIsModalOpen(true);
+      }}>
         <FaPlus />
       </button>
 
