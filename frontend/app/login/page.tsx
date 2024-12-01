@@ -15,6 +15,27 @@ const LoginPage = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
+    if(!username || !password){
+      toast.error("Please fill in all fields");
+      setIsLoading(false);
+      return;
+    }
+    if(password.length < 8){
+      toast.error("Password must be atleast 8 characters");
+      setIsLoading(false);
+      return;
+    }
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+
+    const isValidatPassword = (password: string): boolean => {
+      return passwordRegex.test(password);
+    };
+     if(!isValidatPassword(password)){
+      toast.error("Password must satisfy safe password conditions");
+      setIsLoading(false);
+      return;
+     }
+
     try{
       const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/api/login/", {
         method: "POST",
