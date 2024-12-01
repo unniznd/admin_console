@@ -261,6 +261,11 @@ class RoleView(APIView):
         return Response({
             'status': 'ROLE_CREATED',
             'message': 'Role created successfully',
+            'data': {
+                'id': role.id,
+                'role': role.role
+            }
+
         }, status=status.HTTP_201_CREATED)
     
     def put(self, request, *args, **kwargs):

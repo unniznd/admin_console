@@ -46,6 +46,7 @@ const Users = () => {
       const data = await response.json();
       if (response.ok) {
         setUsers(users.filter(user => user.username !== username));
+        toast.success("User deleted successfully");
       } else {
         toast.error("An error occured while deleting user");
       }
@@ -110,6 +111,7 @@ const Users = () => {
       if (response.ok) {
         setUsers([...users, userData]);
         setIsModalOpen(false);
+        toast.success("User created successfully");
       } else {
         console.log(data?.errors);
         if (data?.errors){
@@ -151,6 +153,7 @@ const Users = () => {
       if (response.ok) {
         setUsers(users.map(user => user.username === userData.username ? userData : user));
         setIsModalOpen(false);
+        toast.success("User updated successfully");
       } else {console.log(data?.error);
         toast.error("An error occured while updating user");
       }
