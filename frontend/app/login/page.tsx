@@ -26,7 +26,7 @@ const LoginPage = () => {
       const response_json = await response.json();
       if(response.ok){
         localStorage.setItem("token", response_json.token);
-        router.push("/admin");
+        router.push("/");
       }else{
         toast.error("Invalid username or password");
       }
@@ -42,7 +42,7 @@ const LoginPage = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      router.push("/admin"); 
+      router.push("/"); 
     }
   }, [router]);
 
