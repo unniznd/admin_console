@@ -11,7 +11,7 @@ Make sure you have the latest NodeJS and yarn installed on your system.
 NEXT_PUBLIC_API_URL=http://localhost:8000
 ```
 5. Navigate to the root directory of the project and run the backend server
-6. Run `yarn dev` to start the frontend server
+6. Run `yarn run dev` to start the frontend server
 
 
 ## Routes
